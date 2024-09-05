@@ -1,0 +1,377 @@
+% !TeX program = xelatex
+\documentclass[12pt]{article}
+\usepackage{/home/lajope/.custom/tex/preamble}
+\usepackage{tabularx}
+\graphicspath{{./pics/}}
+
+\title{Информационные технологии}
+\begin{document}
+
+\maketitle
+\newpage
+
+\section{Лекция 1}
+
+\subsection{Интерполяция}
+\begin{center}
+	\includegraphics[scale=0.2]{pic1.jpg}
+\end{center}
+
+На графике даны точки:
+\begin{equation*}
+	\begin{cases}
+		M_k (x_k, y_k), \\
+		k = \overline{1 \ldots m}
+	\end{cases}
+\end{equation*}
+
+Задача: соединить узлы (точки), что решает интерполирование.
+Необходимо подобрать простейшую функцию, которая соединяет все точки.
+
+Полином степени \( n \):
+\[  P_n = a_0 + a_1 \cdot x + a_2 \cdot x^2 + ... + a_n \cdot x^n \]
+
+Количество коэфициентов:
+\( n + 1 \hspace{10pt} (a_0, a_1, a_2, \ldots , a_n) \)
+
+Нужно найти полином, который проходит через все узлы, с наименьшим количеством
+коэфициентов.
+\begin{equation*}
+	\begin{cases}
+		P_n(x_k) = y_k, \\
+		k= \overline{1 \ldots m}
+	\end{cases}
+\end{equation*}
+
+Для каждой точки на графике получится уравнение:
+\begin{equation*}
+	\begin{cases}
+		a_0 + a_1 \cdot x_1 + a_2 \cdot x_1^2 + ... + a_n \cdot x_1^n = y_1 \\
+		a_0 + a_1 \cdot x_2 + a_2 \cdot x_2^2 + ... + a_n \cdot x_2^n = y_2 \\
+		\ldots \ldots \ldots                                                \\
+		a_0 + a_1 \cdot x_m + a_2 \cdot x_m^2 + ... + a_n \cdot x_m^n = y_m
+	\end{cases}
+\end{equation*}
+
+\( (a_0, a_1, a_2, \ldots , a_n) \) - неизвестные.
+
+\( ((x_1, y_1), (x_2, y_2), (x_3, y_3), \ldots (x_m, y_m)) \) -
+заданные точки.
+
+\vspace{10pt}
+Это \textbf{система линейных алгебраических уравнений}.
+\vspace{10pt}
+
+\begin{tabularx}{\textwidth}{XXX}
+	{
+		\centering
+		Вектор неизвестных:
+		\begin{equation*}
+			\begin{cases}
+				a_0    \\
+				a_1    \\
+				a_2    \\
+				\ldots \\
+				a_n
+			\end{cases}
+		\end{equation*}
+	} &
+	{
+			\centering
+			Вектор числовых значений:
+			\begin{equation*}
+				\begin{cases}
+					y_0    \\
+					y_1    \\
+					y_2    \\
+					\ldots \\
+					y_n
+				\end{cases}
+			\end{equation*}
+	} &
+	{
+			\centering
+			Матрица коэфициентов:
+			\begin{equation*}
+				\begin{cases}
+					1 \hspace{4pt} x_1 \hspace{4pt} x_1^2 \hspace{4pt} \ldots \hspace{4pt} x_1^n \\
+					1 \hspace{4pt} x_2 \hspace{4pt} x_2^2 \hspace{4pt} \ldots \hspace{4pt} x_2^n \\
+					\ldots                                                                       \\
+					1 \hspace{4pt} x_m \hspace{4pt} x_m^2 \hspace{4pt} \ldots \hspace{4pt} x_m^n
+				\end{cases}
+			\end{equation*}
+			Матрица должна быть квадратной (\( n+1 \) - столбцов, \( m \) - строк, \( n + 1 = m \))
+		}
+\end{tabularx}
+
+
+Степень полинома должна быть равна \( n = m - 1 \)
+
+\( x_i \neq x_j \) (все узлы различны) \( \implies det(A) \neq 0 \)
+(матрица невырождена) \( \implies \) имеется единственное решение при
+\( n = m - 1 \implies \) полином, проходящий через эти точки, лишь один.
+
+\vspace{10pt}
+
+В итоге, мы получили:
+
+\vspace{10pt}
+
+\begin{tabularx}{\textwidth}{X|X|X}
+	{
+		\centering
+		\( m = 1 \) (Если 1 эксперементальная точка то это полином 0 степени):
+		\[ P_0(x) = a_0 \]
+		\includegraphics[scale=0.1]{pic2.jpg}
+	}
+	 &
+	{
+			\centering
+			\( m = 2 \):
+			\[ P_1(x) = a_0 + a_1 \cdot x \]
+			\includegraphics[scale=0.1]{pic3.jpg}
+		}
+	 &
+	{
+			\centering
+			\( m = 3 \):
+			\[ P_2(x) = a_0 + a_1 \cdot x + a_2 \cdot x^2 \]
+			\includegraphics[scale=0.1]{pic4.jpg}
+		}
+\end{tabularx}
+
+\vspace{10pt}
+
+(Решение этой задачи в матлабе: \( a = A \backslash B \))
+% subsection Интерполяция
+
+\subsection{Интерполиционный полином в форме Лагранжа}
+
+\textbf{Задача та же}
+
+Обозначение формулы Лагранжа:
+\[
+	L_n(x) = \sum_{k = 1}^{m} y_k \cdot \omega_k(x)
+\]
+\[
+	L_{m-1}(x) = \sum_{k = 1}^{m} y_k \cdot \omega_k(x) \hspace{10pt} (n = m - 1)
+\]
+
+Условия, которым должна соответствовать функция \( \omega_k(x) \):
+\begin{itemize}
+	\centering
+	\item
+	      \(
+	      \begin{cases}
+		      \omega_k(x_i) = 0 \text{ где } i \neq k \\
+		      \omega_k(x_k) = 1
+	      \end{cases}
+	      \)
+	\item
+	      \( \omega_k(x) = P_{m-1}(x) \)
+\end{itemize}
+
+Функция, удовлетворяющяя этим условиям:
+\[
+	\omega_k(x) = \frac
+	{(x-x_1)(x-x_2)\ldots(x-x_{k-1})(x-x_{k+1})\ldots(x-x_m)}
+	{(x_k-x_1)(x_k-x_2)\ldots(x_k-x_{k-1})(x_k-x_{k+1})\ldots(x_k-x_m)}
+\]
+
+Получаем:
+\[
+	L_{m-1}(x) =
+	\sum_{k = 1}^{m} \left(y_k \cdot
+	\prod_{\substack{i=1 \\ i \neq k}}^{m}
+	\frac{(x-x_i)}{(x_k-x_i)}\right)
+\]
+
+Найдём вид формулы Лагранжа для определённых \( m \):
+\begin{itemize}
+	\item \( m = 2: \hspace{32pt} P_1(x) = a_0 + a_1 \cdot x \)
+	      \[
+		      L_1(x) = y_1 \cdot \left(\frac{x-x_2}{x_1-x_2}\right) +
+		      y_2 \cdot \left(\frac{x-x_1}{x_2-x_1}\right) =
+		      \left(\frac{y_2-y_1}{x_2 - x_1}\right) x +
+		      \left(\frac{y_1 \cdot x_2 - y_2 \cdot x_1}{x_2 - x_1}\right)
+	      \]
+	      \[ a_1 = \frac{y_2-y_1}{x_2 - x_1} \]
+	      \[ a_0 = \frac{y_1 \cdot x_2 - y_2 \cdot x_1}{x_2 - x_1} \]
+	\item \( m = 3: \hspace{32pt} P_2(x) = a_0 + a_1 \cdot x + a_2 \cdot x^2 \)
+	      \[
+		      L_2(x) = y_1 \cdot \frac{(x-x_2)(x-x_3)}{(x_1-x_2)(x_1-x_3)} +
+		      y_2 \cdot \frac{(x-x_1)(x-x_3)}{(x_2-x_1)(x_2-x_3)} +
+		      y_3 \cdot \frac{(x-x_1)(x-x_2)}{(x_3-x_1)(x_3-x_2)}
+	      \]
+\end{itemize}
+
+Пример (m = 3):
+
+\vspace{4pt}
+
+\includegraphics[scale=0.2]{pic5.jpg}
+
+Даны 3 точки. (0, 0), (h, 1), (1, 0).
+Значение функции в точке h было измерено с прогрешностью \( \delta \)
+(\( |\delta| \ll 1 \)).
+
+Нужно найти, при каком значении h, данная погрешность имеет минимальное
+влияние на конечный полином.
+
+\begin{itemize}
+	\item Сначала не берём во внимание погрешность.
+	      \[
+		      L_2(x) = 1 \cdot \frac{(x-0)(x-1)}{(h-0)(h-1)} = \frac{x(1-x)}{h(1-h)}
+	      \]
+	      \[
+		      L_2\left(\frac{1}{2}\right) = \frac{1}{4h(1-h)}
+	      \]
+	\item Тепер, учитывая погрешность.
+	      \[
+		      \overline{L_2}(x) = (1 + \delta) \cdot
+		      \frac{x(1-x)}{h(1-h)}
+	      \]
+	      \[
+		      \overline{L_2} - L_2 = \delta \frac{x(1-x)}{h(1-h)}
+	      \]
+	      При \( x = \frac{1}{2} \), если \( h \sim 0 \) или \( h \sim 1 \implies
+	      |\overline{L_2} - L_2| \gg |\delta| \implies \) погрешность сильно
+	      влияет на конечный полином.
+
+	      При \( h = \frac{1}{2} \implies |\overline{L_2} - L_2| = |\delta|
+	      \implies \) погрешность мало влияет на полином (система устойчива).
+\end{itemize}
+% Subsection Интерполиционный полином в форме Лагранжа
+
+\subsection{Метод аппроксимации.}
+\subsubsection{Облако экспериментальных данных.}
+\begin{wrapfigure}{l}{0.4\textwidth}
+	\includegraphics[scale=0.15]{pic6.jpg}
+\end{wrapfigure}
+
+Дано множество (облако) точек:
+\[ M_k(x_k;y_k), \hspace{4pt} k=\overline{1 \ldots m} \]
+\[ m \gg 1 \]
+
+Вопрос: какая представлена зависимость на графике?
+
+Уравнение аппроксимации, завиящей от параметров \( A, B, C, \ldots \):
+\[ y = f(x, A, B, C, \ldots) \]
+
+\vspace{10pt}
+Для нахождения хорошей функции аппроксимации \( y = c_0 + c_1 \cdot x + c_2
+\cdot x^2 + \ldots  \)
+необходимо, чтобы разница, между данной функцией аппроксимации и
+эксперементальным значением функции в точке \( x_k \) была наименьшей.
+
+\textbf{Метод наименьших квадратов:}
+\[
+	S(c_1; c_2; \ldots; c_m) =
+	\sum_{k=1}^{m}(f(x_k; c_1; c_2; \ldots ; c_m) - y_k)^2 \to
+	\substack{min\\(c_1; c_2; \ldots ; c_m)}
+\]
+
+% Subsubsection Облако экспериментных данных.
+
+\subsubsection{Линейная регрессия:}
+\hspace{40pt} \( y = c_0 + c_1 \cdot x \)
+
+\[
+	S(C_1, C_2) = \sum_{k=1}^m \left( C_1 + C_2 \cdot x_k - y_k \right)^2
+	\to \substack{min\\(C_1; C_2)}
+\]
+
+Необходимое и достаточное условие экстремума:
+\begin{equation*}
+	\begin{cases}
+		\frac{dS}{dC_1} = 0 \\
+		\frac{dS}{dC_2} = 0
+	\end{cases}
+	\implies
+	\begin{cases}
+		\frac{dS}{dC_1} =
+		\sum_{k=1}^m 2 \cdot \left( C_1 + C_2 \cdot x_k - y_k \right) = 0 \\
+		\frac{dS}{dC_2} =
+		\sum_{k=1}^m 2 \cdot \left( C_1 + C_2 \cdot x_k - y_k \right) \cdot x_k = 0
+	\end{cases}
+\end{equation*}
+
+\begin{equation*}
+	\begin{cases}
+		C_1 \sum_{k=1}^{m}1 + C_2 \sum_{k=1}^{m}x_k = \sum_{k=1}^{m}y_k \\
+		C_1 \sum_{k=1}^{m}x_k + C_2 \sum_{k=1}^{m}x_k^2 = \sum_{k=1}^{m}x_k \cdot y_k
+	\end{cases}
+\end{equation*}
+
+\[
+  a_{11} = m; \hspace{6pt} a_{12} = a_{21} = \sum_{k=1}^{m}x_k;
+	\hspace{6pt} a_{22} = \sum_{k=1}^{m}x_k^2; \hspace{6pt}
+	b_1 = \sum_{k=1}^{m}y_k; \hspace{6pt} b_2 = \sum_{k=1}^{m} x_k \cdot y_k
+\]
+
+\begin{equation*}
+	\begin{cases}
+		a_{11} C_1 + a_{12} C_2 = b_1 \\
+		a_{21} C_1 + a_{22} C_2 = b_2
+	\end{cases}
+\end{equation*}
+
+Пример \( m = 3 \):
+
+\begin{wrapfigure}{l}{0.55\textwidth}
+  \includegraphics[scale=0.2]{pic7.jpg} 
+\end{wrapfigure}
+
+Даны точки: \( (0,0); (h, 1); (1, 0) \)\\
+
+По формулам:\\
+\( a_{11} = 3 \)\\
+\( a_{12} = a_{21} = 1 + h \)\\
+\( a_{22} = 1 + h^2 \)\\
+\( b_1 = 1 \)\\
+\( b_2 = h \)
+\begin{equation*}
+  \begin{cases}
+    3 C_1 + (1 + h) C_2 = 1\\
+    (1 + h) C_1 + (1 + h^2) C_2 = h
+  \end{cases}
+\end{equation*}\\
+
+Найдём решение данной системы матричным методом:
+\[
+  det(A) = \left|
+  \begin{matrix}
+    3 & 1+h\\
+    1+h & 1+h^2
+  \end{matrix}
+  \right| = 3 + 3 h^2 - (1 + h^2) = 2 (1 - h + h^2) \neq 0
+\] 
+\[
+  \Delta_1 = \left|
+  \begin{matrix}
+    1 & 1 + h\\
+    h & 1 + h^2
+  \end{matrix}
+  \right| = 1 + h^2 - h - h^2 = 1 - h
+\] 
+\[
+  \Delta_2 = \left|
+  \begin{matrix}
+    3 & 1\\
+    1+h & h
+  \end{matrix}
+  \right| = 3 h - 1 - h = 2 h - 1
+\] 
+
+\[ C_1 = \frac{\Delta_1}{det(A)} = \frac{1 - h}{2 (1 - h + h^2)} \] 
+\[ C_2 = \frac{\Delta_2}{det(A)} = \frac{2 h - 1}{2 (1 - h + h^2)} \] 
+
+При погрешности измерени функции в точке h, метод наименьших квадратов
+обеспечивает устойчивость системы.
+% Subsubsection Линейная регрессия
+% Subsection Метод аппроксимации. Облако экспериментных данных.
+% Section Лекция 1
+
+\section{Лекция 2}
+
+\end{document}
