@@ -1,7 +1,6 @@
 % !TeX program = xelatex
 \documentclass[12pt]{article}
 \usepackage{/home/lajope/.custom/tex/preamble}
-\usepackage{tabularx}
 \graphicspath{{./pics/}}
 
 \title{Информационные технологии}
@@ -14,7 +13,7 @@
 
 \subsection{Интерполяция}
 \begin{center}
-	\includegraphics[scale=0.2]{pic1.jpg}
+	\includegraphics[scale=0.2]{lec1/pic1.jpg}
 \end{center}
 
 На графике даны точки:
@@ -122,21 +121,21 @@
 		\centering
 		\( m = 1 \) (Если 1 эксперементальная точка то это полином 0 степени):
 		\[ P_0(x) = a_0 \]
-		\includegraphics[scale=0.1]{pic2.jpg}
+		\includegraphics[scale=0.1]{lec1/pic2.jpg}
 	}
 	 &
 	{
 			\centering
 			\( m = 2 \):
 			\[ P_1(x) = a_0 + a_1 \cdot x \]
-			\includegraphics[scale=0.1]{pic3.jpg}
+			\includegraphics[scale=0.1]{lec1/pic3.jpg}
 		}
 	 &
 	{
 			\centering
 			\( m = 3 \):
 			\[ P_2(x) = a_0 + a_1 \cdot x + a_2 \cdot x^2 \]
-			\includegraphics[scale=0.1]{pic4.jpg}
+			\includegraphics[scale=0.1]{lec1/pic4.jpg}
 		}
 \end{tabularx}
 
@@ -209,7 +208,7 @@
 
 \vspace{4pt}
 
-\includegraphics[scale=0.2]{pic5.jpg}
+\includegraphics[scale=0.2]{lec1/pic5.jpg}
 
 Даны 3 точки. (0, 0), (h, 1), (1, 0).
 Значение функции в точке h было измерено с прогрешностью \( \delta \)
@@ -246,7 +245,7 @@
 \subsection{Метод аппроксимации.}
 \subsubsection{Облако экспериментальных данных.}
 \begin{wrapfigure}{l}{0.4\textwidth}
-	\includegraphics[scale=0.15]{pic6.jpg}
+	\includegraphics[scale=0.15]{lec1/pic6.jpg}
 \end{wrapfigure}
 
 Дано множество (облако) точек:
@@ -319,7 +318,7 @@
 Пример \( m = 3 \):
 
 \begin{wrapfigure}{l}{0.55\textwidth}
-  \includegraphics[scale=0.2]{pic7.jpg} 
+  \includegraphics[scale=0.2]{lec1/pic7.jpg} 
 \end{wrapfigure}
 
 Даны точки: \( (0,0); (h, 1); (1, 0) \)\\
@@ -372,6 +371,203 @@
 % Subsection Метод аппроксимации. Облако экспериментных данных.
 % Section Лекция 1
 
+\newpage
+
 \section{Лекция 2}
+\subsection{Численное интегрирование}
+\subsubsection{Постановка задачи}
+\textbf{Задача: найти значение определённого интеграла с любой определённой точностью}
+
+\[
+  S = \int_a^b f(x)dx
+\] 
+
+Первое: дискретизировать задачу
+
+РИС 1
+
+\[
+  x_0 = a, x_n = b
+\] 
+
+\[
+  h = \frac{b - a}{n}; n \gg 1
+\]
+
+РИС 2
+
+Интеграл - площадь криволинейной трапеции. Нужно найти площадь.
+
+Разбили, разрезали на полоски через \( x_i \)
+
+
+Как решать: метод аппроксимации.
+
+Рассмотрим элементарный отрезочек
+
+РИС 3
+
+\( k = \overline{1,\dots,n} \)
+\[
+  S = \int_{a}^{b} f(x)dx = \sum_{k=1}^{n} \int_{x_{k-1}}^{x_k} f(x)dx
+\] 
+
+Теперь нужно научиться приближённо считать элементарные интегралы
+
+Формулы механических квадратур:
+
+\[
+  \int_{x_{k-1}}^{x_k} f(x)dx \approx \sum_{i=1}^m A_i f(x_i)
+\] 
+
+где m - определённый параметр,
+A - коэффициент
+
+% Subsubsection Постановка задачи
+
+\subsubsection{Методы решения}
+\begin{itemize}
+  \item Методы Ньютона-Котеса:
+        \begin{itemize}
+          \item Берём \( m=1 \):
+
+                Заменяем нашу функцию интерполяционным полиномом 0 степени
+                \[
+                    f(x) \approx L_0(x)         
+                \] 
+                Берём середину отрезка \( \overline{x_k} \)
+
+                РИС 4
+
+                Т.е. мы заменяем функцию кусочно-постоянной функцией
+                (прямоугольники).
+
+                В этом случае элементарная площадь равняется:
+
+                \[
+                  \int_{x_{k-1}}^{x_k} f(x)dx \approx
+                  f(\overline{x}_k) \cdot h
+                \] 
+                \[
+                  S = \int_{a}^{b} f(x)dx \approx
+                  h \cdot \sum_{k=1}^{n}f(\overline{x}_k)
+                \] 
+
+                Этот метод называется методом прямоугольников
+                с выбором средней точки.  
+
+                Если выбрать левый \( x_{k-1} \) за точку, то это метод
+                левых прямоугольников и т.д.
+
+                \textbf{Кусочно-линейная постоянная апроксимация}
+          \item Берём \( m=2 \):
+            \[
+              f(x) = L_1(x)
+            \] 
+
+            РИС 5
+
+            Заменяем полиномом 1 степени (прямой)
+
+            \[
+              \int_{x_{k-1}}^{x_k} f(x)dx \approx
+              \int_{x_{k-1}}^{x_k} L_1(x)dx =
+              h \cdot \left( \frac{f(x_{k-1}) + f(x_k)}{2} \right)
+            \] 
+
+            Это метод трапеции
+
+            Кусочно-линейная непрерывная апроксимация
+
+          \item Берём \( m=3 \) (Первый сделал Симпсон):
+
+            РИС 6
+
+            \[
+              f(x) \approx L_2(x)
+            \] 
+            \[
+              \int_{x_{k-1}}^{x_k} f(x)dx \approx
+              \int_{x_{k-1}}^{x_k} L_2(x)dx =
+              \frac{h}{6} \cdot (f(x-1) + 4 \cdot f(\overline{x_k}) + f(x_k))
+            \] 
+            Формула Симпсона (среднее взвешенное значение)
+
+        \end{itemize}
+        Как добиться, используя любую из этих формул, любой точности?  
+        \begin{quotation}
+          >Чем меньше интервальчик, тем лучше апроксимация.<
+        \end{quotation}
+        \[
+          S_n \hspace{2pt} \substack{\longrightarrow \\ n \to \infty}
+          \hspace{2pt} S
+        \] 
+        \[
+          \abs{S_{2n} - S_n} \hspace{2pt}
+          \substack{\longrightarrow \\ n \to \infty}
+          \hspace{2pt} 0
+        \] 
+
+        Этот принцип положен в основу оценки точности приближения
+        
+        Берём \( n=2 \); \( S_2 \)
+
+        Потом \( n=2 \cdot n \); \( S_4 \)
+
+        Если разность меньше заданной точности, т.е.
+        \[
+          \abs{S_{2n} - S_n} < \epsilon
+        \] 
+        то ещё удваиваем n.
+
+        \( \epsilon \) - заданная точность
+
+        \begin{quotation}
+          >Карл Фридрих Гаусс хорошенько поёрзал<
+        \end{quotation}
+  \item Методы Гаусса
+      
+    Идея: так же разбили на элементарные промежутки
+    \[
+      \int_{a}^{b} f(x) dx = \sum_{k=1}^{n} \int_{x_{k-1}}^{x_k} f(x)dx
+    \] 
+    где \( \displaystyle\int_{x_{k-1}}^{x_k} f(x)dx = S_k \) - элементарная площадь.
+    \[
+      S_k \approx \sum_{i=1}^{m} A_i \cdot f(x_i)
+    \] 
+
+    В формулах Ньютона-Котеса узлы фиксированны. 
+    Гаусс задумался, можно ли пошевелить узлами, чтобы добиться наибольшей
+    точности?
+
+    Для этого он перевёл интегрирование в другую форму:
+    \[
+      \int_{x_{k-1}}^{x_k} f(x)dx = C \cdot \int_{-1}^{1} \phi(t)dt
+    \] 
+    Чтобы привести интеграл в данную форму, нужно преобразовать x в t линейной
+    заменой, т.е.:
+    \[
+      [x_{k-1}; x_k] \longrightarrow [-1; 1]
+    \] 
+    *13
+    
+    Нужно подобрать m так, чтобы сумма в точности равнялась полиному степени 2m
+    -1
+    *14
+
+    1) m = 1: *15
+
+    Это доказывает, что метод с выбором средней точки абсолютно точен для
+    любой линейной функции.
+
+    *16
+
+    2) m = 2: *17
+
+\end{itemize}
+
+% Subsubsection Методы решения
+% Subsection Численное интегрирование
+% Section Лекция 2
 
 \end{document}
